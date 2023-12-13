@@ -55,7 +55,7 @@ public class XmlToCsv {
                 }
             };
 
-            saxParser.parse("your-xml-file.xml", handler);
+            saxParser.parse("items-0.xml", handler);
 
         } catch (IOException e) {
             e.printStackTrace();
