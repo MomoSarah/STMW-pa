@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "preparing the database..."
+
+# Run the drop.sql batch file to drop existing tables.
+
+mysql < drop.sql
+
+# Run the create.sql batch file to create the database and the tables.
+mysql < create.sql
+
+echo "generating csv files..."
+
+# Compile and run the convertor
+javac MySAX.java
+java MySAX items-*.xml
+
+echo "populating database..."
+# Run the load.sql batch file to load the data
+mysql db < load.sql
+echo "finalizing..."
+# Remove all temporary files
+rm *.class
+rm *.csv
