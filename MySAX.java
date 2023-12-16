@@ -1,14 +1,3 @@
-/* Parser skeleton for processing item-???.xml files. Must be compiled in
- * JDK 1.5 or above.
- *
- * Instructions:
- *
- * This program processes all files passed on the command line (to parse
- * an entire diectory, type "java MyParser myFiles/*.xml" at the shell).
- *
- */
-
-import java.io.FileReader;
 import java.text.*;
 import java.util.*;
 import org.xml.sax.XMLReader;
@@ -17,9 +6,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLReaderFactory;
 import org.xml.sax.helpers.DefaultHandler;
 
-
 public class MySAX extends DefaultHandler
 {
+    private boolean inItem = false;
+    private boolean inCost = false;
+    private double totalExpenses = 0;
 
     public static void main (String args[])
 	throws Exception
@@ -29,23 +20,19 @@ public class MySAX extends DefaultHandler
 	xr.setContentHandler(handler);
 	xr.setErrorHandler(handler);
 
-				// Parse each file provided on the
-				// command line.
 	for (int i = 0; i < args.length; i++) {
 	    FileReader r = new FileReader(args[i]);
 	    xr.parse(new InputSource(r));
 	}
-    }
 
+	System.out.println("Total expenses: " + handler.totalExpenses);
+    }
 
     public MySAX ()
     {
 	super();
     }
 
-    /* Returns the amount (in XXXXX.xx format) denoted by a money-string
-     * like $3,453.23. Returns the input if the input is an empty string.
-     */
     static String strip(String money) {
         if (money.equals(""))
             return money;
@@ -67,18 +54,15 @@ public class MySAX extends DefaultHandler
     // Event handlers.
     ////////////////////////////////////////////////////////////////////
 
-
     public void startDocument ()
     {
 	System.out.println("Start document");
     }
 
-
     public void endDocument ()
     {
 	System.out.println("End document");
     }
-
 
     public void startElement (String uri, String name,
 			      String qName, Attributes atts)
@@ -90,8 +74,13 @@ public class MySAX extends DefaultHandler
 	for (int i = 0; i < atts.getLength(); i++) {
 	    System.out.println("Attribute: " + atts.getLocalName(i) + "=" + atts.getValue(i));
 	}
-    }
 
+	if (qName.equals("item")) {
+	    inItem = true;
+	} else if (qName.equals("cost")) {
+	    inCost = true;
+	}
+    }
 
     public void endElement (String uri, String name, String qName)
     {
@@ -99,35 +88,19 @@ public class MySAX extends DefaultHandler
 	    System.out.println("End element: " + qName);
 	else
 	    System.out.println("End element:   {" + uri + "}" + name);
-    }
 
+	if (qName.equals("item")) {
+	    inItem = false;
+	} else if (qName.equals("cost")) {
+	    inCost = false;
+	}
+    }
 
     public void characters (char ch[], int start, int length)
     {
-	System.out.print("Characters:    \"");
-	for (int i = start; i < start + length; i++) {
-	    switch (ch[i]) {
-	    case '\\':
-		System.out.print("\\\\");
-		break;
-	    case '"':
-		System.out.print("\\\"");
-		break;
-	    case '\n':
-		System.out.print("\\n");
-		break;
-	    case '\r':
-		System.out.print("\\r");
-		break;
-	    case '\t':
-		System.out.print("\\t");
-		break;
-	    default:
-		System.out.print(ch[i]);
-		break;
-	    }
+	if (inItem && inCost) {
+	    String costStr = new String(ch, start, length);
+	    totalExpenses += Double.parseDouble(strip(costStr));
 	}
-	System.out.print("\"\n");
     }
-
 }
