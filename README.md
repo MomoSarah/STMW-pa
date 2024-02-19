@@ -1,37 +1,44 @@
-1.
-table itemdata (itemID primary key, name, sellerID, firstBid, currentBi, started, ends, description) 
--- number of bids is removed because the bids table enables its derivation. As there can be no bids, it would also be able to calculate the current bid from it, but this is a little more challenging. It was kept there.
-table bids (itemID , bidderID , amount , bidtime) primary key (itemID, amount) 
---amount was selected as the primary key component since it is conceivable that no two bids on the same item will be the same.
-table categories (itemID, category) primary key (itemID, category)
-table buyprice (itemID primary key, price)
-table locations (userID primary key, location)
-table countries (userID primary key, country) 
--- it appears at first glance that every user has a location and a country, but not necessarily buyers. as an example, see CALVIN at line 12298 in items-0.xml
-table sellerrating (userID primary key, sellerrating) 
--- users' seller rating and buyer ratings are kept in different tables since they may both be null if they only exist in one category.
-table buyerrating (userID  primary key, buyerrating)
-table userlatlong (userID primary key, latitude, longitude)
+eBay Auction Database Project
 
-2.
-In the table itemdata, all non-key attributes are functionally dependent on the itemID, as this ID specifies the listed item that has these attributes.
-(itemID -> name, sellerID, firstBid currentBid, started, ends, description)
-For the table bids, there can be only one bid on one item for a certain amount. As such, the other attributes can be derived from itemID and amount. Presumably, a user can also make one bid at a specific datetime, but this could be circumvented using automated bidding, so this is not as certain.
-(itemID, amount -> bidderID, bidtime)
-There are no functional dependencies in the table categories. An item can have multiple categories and vice versa.
+Overview
+This project involves designing a database schema for eBay auction data, shredding XML data into CSV files, creating tables in a MySQL database, and populating them from the CSV files. The assignment is divided into three main points:
 
-The optional buying price of an item is again dependent on the itemID.
-(itemID -> price)
-A user's location and country in the respective tables are functionally dependent on the userID. Locations seem to be freely entered by the user rather than referring to specific places in the world, so they cannot specify a country (e.g. the location 'Bremen' could refer to Bremen, Germany, or one of several places called Bremen in the USA).
-(userID -> {location,country})
-In the sellerrating and buyerrating tables, the ratings are functionally dependent on the userID.
-(userID -> {seller,buyer}rating)
-The optional latitude and longitude are also dependent on the specific user. They can also be different for the same location.
-(userID -> latitude, longitude)
+Designing a Database Schema: Identify the primary keys for each table and ensure the schema adheres to desired normal forms.
 
-3.
-All relations apart from bids only include functional dependencies where non-prime attributes are dependent on the primary key. They are thus in BCNF.
-In the table bids, the story is a bit more complicated. If, as speculated, a user cannot place more than one bid at the same exact datetime, then (bidderID, bidtime) would also form a candidate key. I would argue, however, that there could (in a 'infinite monkeys on infinite typewriters' approach) be multiple bids with the same user and datetime in the system, but none with the same itemID and amount. Regardless, we can not conceive of a decomposition of this table that would offer a tangible benefit.
+XML to CSV Conversion: Write a Java program to read XML files and generate CSV files for each table in the designed schema.
 
-4.
-There are no additional multivalued dependencies on top of the functional dependencies already listed. Thus, by the same argument as above, the relations are in 4NF.
+Database Creation and Population: Write SQL scripts to create tables in a MySQL database and load data from the generated CSV files.
+
+Files and Directories
+/schema_design: Contains the relational schema design for the eBay auction data, specifying primary keys and normalization forms.
+
+/java_program: Houses the Java program responsible for converting XML data into CSV files.
+
+/sql_scripts: Includes SQL scripts for creating tables in a MySQL database and loading data from CSV files.
+
+/sample_data: A directory containing a small set of sample eBay auction XML files for testing.
+
+Instructions
+Schema Design (Point 1)
+Review the relational schema in the /schema_design directory.
+Understand the chosen primary keys and normalization forms.
+Refer to the accompanying documentation explaining why the schema is "good" based on normalization principles.
+XML to CSV Conversion (Point 2)
+Navigate to the /java_program directory.
+Open and run the Java program XmlToCsvConverter.java.
+Ensure the program reads eBay auction XML files and generates CSV files for each table in the schema.
+Database Creation and Population (Point 3)
+Explore the /sql_scripts directory.
+Run the SQL scripts in a MySQL environment to create tables and load data from the generated CSV files.
+Verify the database has been successfully populated by running sample SQL queries.
+Testing
+Use sample SQL queries in the /sql_scripts directory to test the database.
+Ensure that the queries return the expected results, confirming the correctness of the database schema and data population.
+Contributors
+[Your Name]
+[Other contributors, if any]
+Acknowledgments
+This project is based on an adapted assignment from UCLA's course "CS144 Web Applications." We extend our gratitude to Junghoo Cho for providing the original material.
+
+License
+This project is licensed under the MIT License
