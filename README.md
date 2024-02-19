@@ -1,59 +1,42 @@
 # eBay Auction Database Project
 
-## Overview
 
-This project involves designing a database schema for eBay auction data, shredding XML data into CSV files, creating tables in a MySQL database, and populating them from the CSV files. The assignment is divided into three main points:
+This repository contains the solution for an assignment involving the design of a database schema for eBay auction data, shredding XML data into CSV files, creating tables in a MySQL database, and populating them from the CSV files. The assignment consists of three main parts:
 
-1. **Designing a Database Schema:** Identify the primary keys for each table and ensure the schema adheres to desired normal forms.
+1. [Relational Schema Design](#relational-schema-design)
+2. [Java Program for XML to CSV Conversion](#java-program-for-xml-to-csv-conversion)
+3. [SQL Scripts for Database Creation and Data Loading](#sql-scripts-for-database-creation-and-data-loading)
+4. [Testing Database with SQL Queries](#testing-database-with-sql-queries)
 
-2. **XML to CSV Conversion:** Write a Java program to read XML files and generate CSV files for each table in the designed schema.
+## Relational Schema Design
 
-3. **Database Creation and Population:** Write SQL scripts to create tables in a MySQL database and load data from the generated CSV files.
+The relational schema is designed to represent the eBay auction data efficiently while adhering to the desired normal forms of database design. Each table in the schema has its primary keys identified and is designed to minimize redundancy and dependency issues.
 
-## Files and Directories
+## Java Program for XML to CSV Conversion
 
-- **/schema_design:** Contains the relational schema design for the eBay auction data, specifying primary keys and normalization forms.
+A Java program is implemented to read the provided XML files and generate corresponding CSV files based on the relational schema designed earlier. The program ensures accurate conversion and proper formatting of data into CSV files.
 
-- **/java_program:** Houses the Java program responsible for converting XML data into CSV files.
+## SQL Scripts for Database Creation and Data Loading
 
-- **/sql_scripts:** Includes SQL scripts for creating tables in a MySQL database and loading data from CSV files.
+SQL scripts are provided to create tables in a MySQL database according to the designed relational schema. Additionally, these scripts facilitate the loading of data from CSV files into the respective tables in the database.
 
-- **/sample_data:** A directory containing a small set of sample eBay auction XML files for testing.
+## Testing Database with SQL Queries
 
-## Instructions
+Several SQL queries are executed to test the functionality of the created database. These queries validate the integrity of the data and ensure that the database operates as expected.
 
-### Schema Design (Point 1)
+## Usage
 
-1. Review the relational schema in the `/schema_design` directory.
-2. Understand the chosen primary keys and normalization forms.
-3. Refer to the accompanying documentation explaining why the schema is "good" based on normalization principles.
+To use this repository, follow these steps:
 
-### XML to CSV Conversion (Point 2)
+1. Clone the repository to your local machine.
+2. Review the relational schema design and make any necessary adjustments according to your requirements.
+3. Compile and run the Java program to convert XML files to CSV files.
+4. Execute the SQL scripts to create the database tables and load data from CSV files.
+5. Test the database by running SQL queries against it.
 
-1. Navigate to the `/java_program` directory.
-2. Open and run the Java program `XmlToCsvConverter.java`.
-3. Ensure the program reads eBay auction XML files and generates CSV files for each table in the schema.
-
-### Database Creation and Population (Point 3)
-
-1. Explore the `/sql_scripts` directory.
-2. Run the SQL scripts in a MySQL environment to create tables and load data from the generated CSV files.
-3. Verify the database has been successfully populated by running sample SQL queries.
-
-## Testing
-
-1. Use sample SQL queries in the `/sql_scripts` directory to test the database.
-2. Ensure that the queries return the expected results, confirming the correctness of the database schema and data population.
-
-## Contributors
-
-- Sarah Islam Momo
-- Nazia Nusrat Ima
-
-## Acknowledgments
-
-This project is based on an adapted assignment from UCLA's course "CS144 Web Applications." We extend our gratitude to Junghoo Cho for providing the original material.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [MIT License](LICENSE).
+
+Feel free to contribute to this repository by forking it and creating pull requests. If you encounter any issues or have suggestions for improvement, please open an issue. Thank you!
